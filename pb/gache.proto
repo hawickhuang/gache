@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+import "protoc-gen-swagger/options/annotations.proto";
+
+option go_package="github.com/hawickhuang/gache/api";
+option java_package="com.hawickhuang.api";
+package github.hawickhuang.api;
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "gache"
+        version: "v0.1.0"
+    }
+};
+
+enum OperationType {
+    GET = 0;
+    SET = 1;
+    DEL = 2;
+    MGET = 3;
+    MSET = 4;
+    MDEL = 5;
+    STAT = 6;
+}
+
+enum CacheType {
+    MEMORY = 0;
+    ROCKSDB = 1;
+}
+
+message ResponseWrapper {
+    uint32 code = 1;
+    string message = 2;
+    bytes data = 3;
+}
+
+message GetRequest {
+    string key = 1;
+}
+
+message GetResponse {
+    bytes value = 1;
+    uint64 ttl = 2;
+}
+
+message MGetRequest {
+    repeated string keys = 1;
+}
+
+message MGetResponse {
+    map<string, bytes> kvs = 1;
+}
+
+message SetRequest {
+    string key = 1;
+    bytes value = 2;
+    uint64 ttl = 3;
+}
+
+message SetResponse {
+}
+
+message MSetRequest {
+    repeated SetRequest sets = 1;
+}
+
+message MSetResponse {
+}
+
+message DelRequest {
+    string key = 1;
+}
+
+message DelResponse {
+}
+
+message MDelRequest {
+    repeated string keys = 1;
+}
+message MDelResponse {}
+
+message StatRequest {
+}
+
+message StatResponse {
+    uint64 keys_cnt = 1;
+    uint64 total_usage = 2;
+}
+
+
+
+
+
+
+
